@@ -125,6 +125,16 @@ class PrusaLink:
         """Get a large thumbnail."""
         async with self.request("GET", f"thumb/l{path}") as response:
             return await response.read()
+        
+    async def get_active_cameras(self):
+        """Get active cameras list"""
+        async with self.request("GET", "api/v1/cameras") as response:
+            return await response.json()
+        
+    async def get_camera_snap(self, id: str) -> bytes:
+        """Get a captured image from the camera with a given id"""
+        async with self.request("GET", f"/api/v1/cameras/{id}/snap") as response:
+            return await response.json()
 
     @asynccontextmanager
     async def request(
